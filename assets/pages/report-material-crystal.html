@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>无容器效应下的完美晶体生长研究 | Aetherius 详细报告</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        deep: { 900: '#030712', 800: '#0B1121' },
+                        neon: { cyan: '#00F0FF', blue: '#00A3FF', purple: '#BC13FE', green: '#10B981', silver: '#E0E0E0' }
+                    },
+                    fontFamily: {
+                        sans: ['Roboto', 'sans-serif'],
+                        orbitron: ['Orbitron', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .glass-card:hover { background: rgba(255, 255, 255, 0.1); border-color: #00A3FF; box-shadow: 0 0 20px #00A3FF40; }
+        .text-glow { text-shadow: 0 0 10px #00A3FF80; }
+    </style>
+</head>
+<body class="bg-deep-900 text-white antialiased selection:bg-neon-blue selection:text-black">
+
+    <!-- Header -->
+    <header class="fixed w-full z-50 glass border-b border-white/10">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="science-material.html" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 border-2 border-neon-blue rounded-full flex items-center justify-center group-hover:shadow-[0_0_15px_#00A3FF80] transition-all">
+                    <i class="fa-solid fa-arrow-left text-neon-blue"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-orbitron font-bold text-xl tracking-wider text-white">AETHERIUS</span>
+                    <span class="text-[10px] text-neon-blue tracking-[0.2em] uppercase">MATERIAL SCIENCE</span>
+                </div>
+            </a>
+            <div class="flex items-center gap-4">
+                <div class="hidden md:block px-3 py-1 rounded border border-neon-blue/30 bg-neon-blue/10 text-neon-blue text-xs font-mono tracking-widest">
+                    CONFIDENTIAL // LEVEL 4
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="relative h-[50vh] flex items-center overflow-hidden pt-20">
+        <div class="absolute inset-0 z-0">
+             <div class="absolute inset-0 bg-gradient-to-r from-deep-900 via-deep-900/90 to-transparent z-10"></div>
+             <div class="absolute inset-0 bg-[url('./assets/images/scenes/cl.png')] bg-cover bg-center opacity-50"></div>
+        </div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex items-start gap-6">
+                <div class="p-4 rounded-xl glass hidden md:block border border-neon-blue/30">
+                    <i class="fa-solid fa-cube text-4xl text-neon-blue"></i>
+                </div>
+                <div>
+                    <h1 class="font-orbitron text-4xl md:text-5xl font-bold mb-2 leading-tight max-w-4xl text-glow">无容器效应下的完美晶体生长研究</h1>
+                    <p class="text-neon-blue font-mono text-lg tracking-wider mb-6">Perfect Crystal Growth</p>
+                    <div class="flex flex-wrap gap-4">
+                        <button class="px-6 py-2 bg-neon-blue text-black font-bold rounded hover:bg-white transition-colors">
+                            <i class="fa-solid fa-download mr-2"></i> 下载完整报告 (PDF)
+                        </button>
+                        <button class="px-6 py-2 glass rounded hover:bg-white/10 transition-colors">
+                            <i class="fa-solid fa-share-nodes mr-2"></i> 分享数据
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content -->
+    <section class="py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid lg:grid-cols-3 gap-12">
+                
+                <!-- Main Content -->
+                <div class="lg:col-span-2 space-y-8">
+                    <!-- Abstract -->
+                    <div class="glass p-8 rounded-xl border-l-4 border-neon-blue">
+                        <h3 class="text-xl font-bold text-neon-blue mb-4 font-orbitron">项目摘要 (ABSTRACT)</h3>
+                        <p class="text-gray-300 leading-relaxed italic">
+                            "在微重力环境下，利用静电悬浮技术消除了容器壁面对熔体的干扰，成功生长出超大尺寸、极低缺陷密度的单晶硅及化合物半导体材料。这些材料展现出远超地面同类产品的电子迁移率和光学性能。"
+                        </p>
+                    </div>
+
+                    <!-- Dynamic Content -->
+                    <div class="prose prose-invert max-w-none">
+                        
+            <h3 class="text-2xl font-bold mb-4 text-white">无容器技术</h3>
+            <p class="text-gray-400 mb-6 leading-relaxed">在地面生长晶体时，熔体必然与坩埚接触，这会引入杂质并产生热应力，导致晶格缺陷。在 Aetherius 空间站，我们利用静电悬浮炉，使熔体在真空中悬浮，彻底消除了容器污染和接触应力，实现了原子级排列的完美晶体。</p>
+            
+            <h3 class="text-2xl font-bold mb-4 text-white">性能飞跃</h3>
+            <div class="bg-deep-800 p-6 rounded-xl border border-white/10 mb-6">
+                <div class="flex justify-between items-end mb-2">
+                    <span class="text-gray-400">电子迁移率 (cm²/Vs)</span>
+                    <span class="text-neon-blue font-bold">+45% 提升</span>
+                </div>
+                <div class="w-full bg-gray-700 h-4 rounded-full overflow-hidden flex">
+                    <div class="bg-gray-500 h-full w-[60%] border-r border-black" title="地面极限"></div>
+                    <div class="bg-neon-blue h-full w-[27%]" title="空间增益"></div>
+                </div>
+                <div class="flex justify-between text-xs mt-1 text-gray-500">
+                    <span>地面基准</span>
+                    <span>空间制造</span>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold mb-4 text-white">产业应用</h3>
+            <p class="text-gray-400 mb-6 leading-relaxed">这种完美晶体是制造下一代量子计算机芯片和超高灵敏度传感器的核心材料。目前，首批样品已被送往地球顶尖实验室进行器件封装测试。</p>
+        
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="space-y-6">
+                    <!-- Stats Card -->
+                    <div class="glass p-6 rounded-xl">
+                        <h4 class="font-orbitron font-bold text-white mb-6 border-b border-white/10 pb-2">关键指标</h4>
+                        <div class="space-y-6">
+                            
+        <div>
+            <div class="text-gray-500 text-xs uppercase tracking-wider mb-1">晶体直径</div>
+            <div class="flex items-baseline gap-1">
+                <span class="text-3xl font-bold text-white font-orbitron">300</span>
+                <span class="text-sm text-neon-blue">mm</span>
+            </div>
+        </div>
+        
+        <div>
+            <div class="text-gray-500 text-xs uppercase tracking-wider mb-1">位错密度</div>
+            <div class="flex items-baseline gap-1">
+                <span class="text-3xl font-bold text-white font-orbitron"><10</span>
+                <span class="text-sm text-neon-blue">/cm²</span>
+            </div>
+        </div>
+        
+        <div>
+            <div class="text-gray-500 text-xs uppercase tracking-wider mb-1">纯度</div>
+            <div class="flex items-baseline gap-1">
+                <span class="text-3xl font-bold text-white font-orbitron">12N</span>
+                <span class="text-sm text-neon-blue"></span>
+            </div>
+        </div>
+        
+                        </div>
+                    </div>
+
+                    <!-- Project Info -->
+                    <div class="glass p-6 rounded-xl">
+                        <h4 class="font-orbitron font-bold text-white mb-4 border-b border-white/10 pb-2">项目信息</h4>
+                        <ul class="space-y-3 text-sm">
+                            <li class="flex justify-between">
+                                <span class="text-gray-500">项目编号</span>
+                                <span class="font-mono text-neon-blue">AE-SCI-2055-X</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span class="text-gray-500">负责人</span>
+                                <span class="text-white">Dr. Sarah Chen</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span class="text-gray-500">状态</span>
+                                <span class="px-2 py-0.5 rounded bg-green-500/20 text-green-400 text-xs">进行中</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span class="text-gray-500">密级</span>
+                                <span class="text-red-400">Level 4</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                     <!-- Team -->
+                    <div class="glass p-6 rounded-xl">
+                        <h4 class="font-orbitron font-bold text-white mb-4 border-b border-white/10 pb-2">研究团队</h4>
+                        <div class="flex -space-x-3 overflow-hidden mb-4">
+                            <div class="w-10 h-10 rounded-full bg-gray-700 border-2 border-deep-900 flex items-center justify-center text-xs">SC</div>
+                            <div class="w-10 h-10 rounded-full bg-gray-600 border-2 border-deep-900 flex items-center justify-center text-xs">JD</div>
+                            <div class="w-10 h-10 rounded-full bg-gray-500 border-2 border-deep-900 flex items-center justify-center text-xs">AL</div>
+                            <div class="w-10 h-10 rounded-full bg-deep-800 border-2 border-deep-900 flex items-center justify-center text-xs text-gray-400">+5</div>
+                        </div>
+                        <button class="w-full py-2 border border-white/10 rounded hover:bg-white/5 text-sm text-gray-400 transition-colors">联系团队</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="border-t border-white/10 bg-black py-8 mt-12">
+        <div class="container mx-auto px-6 text-center text-gray-600 text-sm">
+            &copy; 2055 Aetherius Space Agency. All Data Encrypted.
+        </div>
+    </footer>
+
+</body>
+</html>

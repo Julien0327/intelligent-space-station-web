@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生命科学 | Aetherius 智能空间站</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        deep: { 900: '#030712', 800: '#0B1121' },
+                        neon: { cyan: '#00F0FF', blue: '#00A3FF', purple: '#BC13FE', green: '#10B981' }
+                    },
+                    fontFamily: {
+                        sans: ['Roboto', 'sans-serif'],
+                        orbitron: ['Orbitron', 'sans-serif']
+                    },
+                    backgroundImage: {
+                        'space-gradient': 'linear-gradient(to bottom, #030712, #0B1121)',
+                        'neon-gradient': 'linear-gradient(90deg, #10B981, #00F0FF)'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="bg-deep-900 text-white antialiased selection:bg-neon-green selection:text-black">
+
+    <!-- Header -->
+    <header class="fixed w-full z-50 glass border-b border-white/10" id="header">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="../../index.html" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 border-2 border-neon-green rounded-full flex items-center justify-center group-hover:shadow-[0_0_15px_rgba(16,185,129,0.5)] transition-all">
+                    <i class="fa-solid fa-arrow-left text-neon-green"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-orbitron font-bold text-xl tracking-wider text-white">AETHERIUS</span>
+                    <span class="text-[10px] text-neon-green tracking-[0.2em] uppercase">LIFE SCIENCE</span>
+                </div>
+            </a>
+            <nav class="hidden lg:flex items-center gap-8">
+                <a href="#overview" class="text-sm hover:text-neon-green transition-colors">概览</a>
+                <a href="#research" class="text-sm hover:text-neon-green transition-colors">研究领域</a>
+                <a href="#lab" class="text-sm hover:text-neon-green transition-colors">实验室</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative h-[60vh] flex items-center justify-center overflow-hidden pt-20">
+        <div class="absolute inset-0 z-0">
+             <div class="absolute inset-0 bg-gradient-to-t from-deep-900 via-deep-900/80 to-transparent z-10"></div>
+             <!-- Background Image -->
+             <div class="absolute inset-0 bg-[url('./assets/images/scenes/sm.png')] bg-cover bg-center opacity-60"></div>
+        </div>
+
+        <div class="container mx-auto px-6 relative z-10 text-center">
+            <div class="inline-block px-4 py-1 border border-neon-green/30 rounded-full bg-neon-green/10 backdrop-blur-sm mb-6 animate-pulse">
+                <span class="text-neon-green text-sm font-mono tracking-wider">BIO-01 MODULE ACTIVE</span>
+            </div>
+            <h1 class="font-orbitron text-5xl md:text-7xl font-bold mb-6">
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">轨道生命科学</span>
+            </h1>
+            <p class="text-gray-300 text-xl max-w-2xl mx-auto leading-relaxed">
+                在微重力环境下探索生命的边界，从蛋白质结晶到人造器官打印，
+                <span class="text-neon-green">重塑人类健康的未来</span>。
+            </p>
+        </div>
+    </section>
+
+    <!-- Overview Stats -->
+    <section id="overview" class="py-12 border-y border-white/5 bg-white/5 backdrop-blur-sm">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="space-y-2">
+                    <div class="text-3xl font-orbitron font-bold text-neon-green">128</div>
+                    <div class="text-xs text-gray-400 uppercase tracking-widest">进行中的实验</div>
+                </div>
+                <div class="space-y-2">
+                    <div class="text-3xl font-orbitron font-bold text-white">4,200 <span class="text-sm">h</span></div>
+                    <div class="text-xs text-gray-400 uppercase tracking-widest">累计培养时间</div>
+                </div>
+                <div class="space-y-2">
+                    <div class="text-3xl font-orbitron font-bold text-neon-blue">98%</div>
+                    <div class="text-xs text-gray-400 uppercase tracking-widest">样本回收率</div>
+                </div>
+                <div class="space-y-2">
+                    <div class="text-3xl font-orbitron font-bold text-purple-400">15</div>
+                    <div class="text-xs text-gray-400 uppercase tracking-widest">诺奖级发现</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Research Areas -->
+    <section id="research" class="py-20">
+        <div class="container mx-auto px-6">
+            <h2 class="font-orbitron text-3xl font-bold mb-12 flex items-center gap-4">
+                <span class="w-2 h-8 bg-neon-green rounded-full"></span>
+                核心研究领域
+            </h2>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="group relative overflow-hidden rounded-2xl bg-deep-800 border border-white/10 hover:border-neon-green transition-all duration-300">
+                    <div class="h-48 bg-gradient-to-br from-green-900/50 to-black flex items-center justify-center relative">
+                        <span class="absolute inset-0 w-full h-full">
+                            <img src="../images/keyan/shengming/jy.png" alt="生命-基因" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700 z-0" />
+                        </span>
+                        <span class="relative z-10 flex items-center justify-center w-full h-full">
+                            <i class="fa-solid fa-dna text-6xl text-green-500/30 group-hover:text-neon-green group-hover:scale-110 transition-all duration-500"></i>
+                        </span>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="font-orbitron text-xl font-bold text-white mb-3">空间基因组学</h3>
+                        <p class="text-gray-400 text-sm mb-6 leading-relaxed">
+                            研究微重力与辐射双重作用下的基因表达变异，寻找抗衰老与抗癌的关键靶点。
+                        </p>
+                        <a href="report-life-genomics.html" class="inline-flex items-center text-neon-green text-sm hover:underline">
+                            查看详细报告 <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="group relative overflow-hidden rounded-2xl bg-deep-800 border border-white/10 hover:border-neon-green transition-all duration-300">
+                    <div class="h-48 bg-gradient-to-br from-teal-900/50 to-black flex items-center justify-center relative">
+                        <span class="absolute inset-0 w-full h-full">
+                            <img src="../images/keyan/shengming/zs.png" alt="生命-再生" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700 z-0" />
+                        </span>
+                        <span class="relative z-10 flex items-center justify-center w-full h-full">
+                            <i class="fa-solid fa-heart-pulse text-6xl text-teal-500/30 group-hover:text-neon-green group-hover:scale-110 transition-all duration-500"></i>
+                        </span>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="font-orbitron text-xl font-bold text-white mb-3">再生医学</h3>
+                        <p class="text-gray-400 text-sm mb-6 leading-relaxed">
+                            利用微重力环境进行3D生物打印，构建血管化的人造心脏与肝脏组织，解决移植短缺。
+                        </p>
+                        <a href="report-life-medicine.html" class="inline-flex items-center text-neon-green text-sm hover:underline">
+                            查看详细报告 <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="group relative overflow-hidden rounded-2xl bg-deep-800 border border-white/10 hover:border-neon-green transition-all duration-300">
+                    <div class="h-48 bg-gradient-to-br from-emerald-900/50 to-black flex items-center justify-center relative">
+                        <span class="absolute inset-0 w-full h-full">
+                            <img src="../images/keyan/shengming/ny.png" alt="生命-作物" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700 z-0" />
+                        </span>
+                        <span class="relative z-10 flex items-center justify-center w-full h-full">
+                            <i class="fa-solid fa-seedling text-6xl text-emerald-500/30 group-hover:text-neon-green group-hover:scale-110 transition-all duration-500"></i>
+                        </span>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="font-orbitron text-xl font-bold text-white mb-3">太空农业</h3>
+                        <p class="text-gray-400 text-sm mb-6 leading-relaxed">
+                            建立闭合生态循环系统(CELSS)，培育高产、耐逆境的太空作物品种，保障深空生存。
+                        </p>
+                        <a href="report-life-agriculture.html" class="inline-flex items-center text-neon-green text-sm hover:underline">
+                            查看详细报告 <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Lab Section (Visual) -->
+    <section id="lab" class="py-20 bg-black relative overflow-hidden">
+        <!-- Decoration -->
+        <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-green-900/10 to-transparent pointer-events-none"></div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="lg:w-1/2 space-y-8">
+                    <h2 class="font-orbitron text-4xl font-bold text-white">
+                        <span class="text-neon-green">XINGPU</span> 综合生物实验室
+                    </h2>
+                    <p class="text-gray-400 text-lg leading-relaxed">
+                        配备了第四代生物反应器、高通量显微成像系统以及全自动样本处理机械臂。
+                        科学家可以在地球实时操作实验设备，如同亲临现场。
+                    </p>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4 p-4 rounded-lg bg-white/5 border border-white/10">
+                            <div class="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center text-green-400">
+                                <i class="fa-solid fa-temperature-three-quarters"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-400">恒温控制精度</div>
+                                <div class="text-xl font-bold text-white">±0.01 °C</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 p-4 rounded-lg bg-white/5 border border-white/10">
+                            <div class="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                <i class="fa-solid fa-microscope"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-400">显微分辨率</div>
+                                <div class="text-xl font-bold text-white">0.5 nm</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:w-1/2">
+                    <div class="relative rounded-2xl overflow-hidden border border-neon-green/30 shadow-[0_0_50px_rgba(16,185,129,0.1)]">
+                        <!-- <img src="./assets/images/scenes/sm.png" alt="Lab Interior" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"> -->
+                        <img src="../images/keyan/shengming/jy.png" alt="Lab Interior" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                        <div class="absolute bottom-6 left-6">
+                            <div class="text-neon-green font-mono text-sm animate-pulse">● LIVE FEED</div>
+                            <div class="text-white font-bold text-xl">生物反应器 B-03</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 bg-deep-900 py-12">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-gray-500 text-sm">&copy; 2050 Aetherius Space Agency. Life Science Division.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

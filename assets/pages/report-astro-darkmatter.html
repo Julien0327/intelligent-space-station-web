@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>利用空间干涉仪探测暗物质信号 | Aetherius 详细报告</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        deep: { 900: '#030712', 800: '#0B1121' },
+                        neon: { cyan: '#00F0FF', blue: '#00A3FF', purple: '#BC13FE', green: '#10B981', silver: '#E0E0E0' }
+                    },
+                    fontFamily: {
+                        sans: ['Roboto', 'sans-serif'],
+                        orbitron: ['Orbitron', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .glass-card:hover { background: rgba(255, 255, 255, 0.1); border-color: #BC13FE; box-shadow: 0 0 20px #BC13FE40; }
+        .text-glow { text-shadow: 0 0 10px #BC13FE80; }
+    </style>
+</head>
+<body class="bg-deep-900 text-white antialiased selection:bg-neon-purple selection:text-black">
+
+    <!-- Header -->
+    <header class="fixed w-full z-50 glass border-b border-white/10">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="science-astronomy.html" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 border-2 border-neon-purple rounded-full flex items-center justify-center group-hover:shadow-[0_0_15px_#BC13FE80] transition-all">
+                    <i class="fa-solid fa-arrow-left text-neon-purple"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-orbitron font-bold text-xl tracking-wider text-white">AETHERIUS</span>
+                    <span class="text-[10px] text-neon-purple tracking-[0.2em] uppercase">ASTRONOMY</span>
+                </div>
+            </a>
+            <div class="flex items-center gap-4">
+                <div class="hidden md:block px-3 py-1 rounded border border-neon-purple/30 bg-neon-purple/10 text-neon-purple text-xs font-mono tracking-widest">
+                    CONFIDENTIAL // LEVEL 4
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="relative h-[50vh] flex items-center overflow-hidden pt-20">
+        <div class="absolute inset-0 z-0">
+             <div class="absolute inset-0 bg-gradient-to-r from-deep-900 via-deep-900/90 to-transparent z-10"></div>
+             <div class="absolute inset-0 bg-[url('./assets/images/scenes/tw.png')] bg-cover bg-center opacity-50"></div>
+        </div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex items-start gap-6">
+                <div class="p-4 rounded-xl glass hidden md:block border border-neon-purple/30">
+                    <i class="fa-solid fa-ghost text-4xl text-neon-purple"></i>
+                </div>
+                <div>
+                    <h1 class="font-orbitron text-4xl md:text-5xl font-bold mb-2 leading-tight max-w-4xl text-glow">利用空间干涉仪探测暗物质信号</h1>
+                    <p class="text-neon-purple font-mono text-lg tracking-wider mb-6">Dark Matter Detection</p>
+                    <div class="flex flex-wrap gap-4">
+                        <button class="px-6 py-2 bg-neon-purple text-black font-bold rounded hover:bg-white transition-colors">
+                            <i class="fa-solid fa-download mr-2"></i> 下载完整报告 (PDF)
+                        </button>
+                        <button class="px-6 py-2 glass rounded hover:bg-white/10 transition-colors">
+                            <i class="fa-solid fa-share-nodes mr-2"></i> 分享数据
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content -->
+    <section class="py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid lg:grid-cols-3 gap-12">
+                
+                <!-- Main Content -->
+                <div class="lg:col-span-2 space-y-8">
+                    <!-- Abstract -->
+                    <div class="glass p-8 rounded-xl border-l-4 border-neon-purple">
+                        <h3 class="text-xl font-bold text-neon-purple mb-4 font-orbitron">项目摘要 (ABSTRACT)</h3>
+                        <p class="text-gray-300 leading-relaxed italic">
+                            "暗物质占据了宇宙质量的85%，但至今未被直接观测到。本项目部署了基于冷原子干涉技术的空间探测器，试图捕捉暗物质粒子穿过地球附近时引起的微小引力扰动，解开这一宇宙终极谜题。"
+                        </p>
+                    </div>
+
+                    <!-- Dynamic Content -->
+                    <div class="prose prose-invert max-w-none">
+                        
+            <h3 class="text-2xl font-bold mb-4 text-white">探测原理</h3>
+            <p class="text-gray-400 mb-6 leading-relaxed">传统的暗物质探测器深埋地下，依靠粒子碰撞发光。而我们的空间干涉仪采用全新的思路：利用暗物质团块通过时产生的极其微弱的引力波动。这就像在平静的湖面上捕捉一只蚊子点水产生的涟漪，只有在绝对安静的太空中才能实现。</p>
+            
+            <h3 class="text-2xl font-bold mb-4 text-white">初步数据</h3>
+            <p class="text-gray-400 mb-6 leading-relaxed">在过去的六个月中，探测器记录到了三次无法用已知天体引力解释的异常波动事件。这些信号的特征与某些超轻轴子（Axion）暗物质模型的预测高度吻合。如果得到证实，这将是物理学百年来最大的突破。</p>
+        
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="space-y-6">
+                    <!-- Stats Card -->
+                    <div class="glass p-6 rounded-xl">
+                        <h4 class="font-orbitron font-bold text-white mb-6 border-b border-white/10 pb-2">关键指标</h4>
+                        <div class="space-y-6">
+                            
+        <div>
+            <div class="text-gray-500 text-xs uppercase tracking-wider mb-1">探测灵敏度</div>
+            <div class="flex items-baseline gap-1">
+                <span class="text-3xl font-bold text-white font-orbitron">10^-18</span>
+                <span class="text-sm text-neon-purple">g</span>
+            </div>
+        </div>
+        
+        <div>
+            <div class="text-gray-500 text-xs uppercase tracking-wider mb-1">干涉臂长</div>
+            <div class="flex items-baseline gap-1">
+                <span class="text-3xl font-bold text-white font-orbitron">5000</span>
+                <span class="text-sm text-neon-purple">km</span>
+            </div>
+        </div>
+        
+        <div>
+            <div class="text-gray-500 text-xs uppercase tracking-wider mb-1">运行时间</div>
+            <div class="flex items-baseline gap-1">
+                <span class="text-3xl font-bold text-white font-orbitron">180</span>
+                <span class="text-sm text-neon-purple">天</span>
+            </div>
+        </div>
+        
+                        </div>
+                    </div>
+
+                    <!-- Project Info -->
+                    <div class="glass p-6 rounded-xl">
+                        <h4 class="font-orbitron font-bold text-white mb-4 border-b border-white/10 pb-2">项目信息</h4>
+                        <ul class="space-y-3 text-sm">
+                            <li class="flex justify-between">
+                                <span class="text-gray-500">项目编号</span>
+                                <span class="font-mono text-neon-purple">AE-SCI-2055-X</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span class="text-gray-500">负责人</span>
+                                <span class="text-white">Dr. Sarah Chen</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span class="text-gray-500">状态</span>
+                                <span class="px-2 py-0.5 rounded bg-green-500/20 text-green-400 text-xs">进行中</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span class="text-gray-500">密级</span>
+                                <span class="text-red-400">Level 4</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                     <!-- Team -->
+                    <div class="glass p-6 rounded-xl">
+                        <h4 class="font-orbitron font-bold text-white mb-4 border-b border-white/10 pb-2">研究团队</h4>
+                        <div class="flex -space-x-3 overflow-hidden mb-4">
+                            <div class="w-10 h-10 rounded-full bg-gray-700 border-2 border-deep-900 flex items-center justify-center text-xs">SC</div>
+                            <div class="w-10 h-10 rounded-full bg-gray-600 border-2 border-deep-900 flex items-center justify-center text-xs">JD</div>
+                            <div class="w-10 h-10 rounded-full bg-gray-500 border-2 border-deep-900 flex items-center justify-center text-xs">AL</div>
+                            <div class="w-10 h-10 rounded-full bg-deep-800 border-2 border-deep-900 flex items-center justify-center text-xs text-gray-400">+5</div>
+                        </div>
+                        <button class="w-full py-2 border border-white/10 rounded hover:bg-white/5 text-sm text-gray-400 transition-colors">联系团队</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="border-t border-white/10 bg-black py-8 mt-12">
+        <div class="container mx-auto px-6 text-center text-gray-600 text-sm">
+            &copy; 2055 Aetherius Space Agency. All Data Encrypted.
+        </div>
+    </footer>
+
+</body>
+</html>

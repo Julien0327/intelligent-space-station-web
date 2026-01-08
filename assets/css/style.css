@@ -1,0 +1,128 @@
+body {
+    background-color: #030712;
+    color: #E0E0E0;
+    overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #030712;
+}
+::-webkit-scrollbar-thumb {
+    background: #00A3FF;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #00F0FF;
+}
+
+/* Glassmorphism */
+.glass {
+    background: linear-gradient(
+        135deg,
+        rgba(11, 17, 33, 0.8) 0%,
+        rgba(11, 17, 33, 0.4) 100%
+    );
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+        inset 0 0 20px rgba(255, 255, 255, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 8px 32px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle border flow animation */
+@keyframes border-flow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.glass::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    background: linear-gradient(
+        90deg,
+        rgba(0, 240, 255, 0) 0%,
+        rgba(0, 240, 255, 0.3) 50%,
+        rgba(0, 240, 255, 0) 100%
+    );
+    background-size: 200% 100%;
+    animation: border-flow 8s ease-in-out infinite;
+    mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    -webkit-mask-composite: xor;
+    pointer-events: none;
+}
+
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 240, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+    border-color: rgba(0, 240, 255, 0.5);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+    transform: translateY(-5px);
+}
+
+/* Telemetry Card Rotation */
+.telemetry-card {
+  transform-style: preserve-3d;
+  transition: transform 0.12s ease;
+}
+
+/* Text Glow */
+.text-glow {
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+}
+
+/* Hero Canvas */
+#hero-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.6;
+}
+
+/* Section Transition */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
+}
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Timeline */
+.timeline-line::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, transparent, #00F0FF, transparent);
+    transform: translateX(-50%);
+}
