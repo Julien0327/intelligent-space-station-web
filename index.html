@@ -133,12 +133,15 @@
 
     <!-- Hero Section -->
    <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden pt-20">
-    <video id="hero-video" autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover z-0">
-    <source src="./assets/videos/background.mp4" type="video/mp4"> <!-- 替换为你的视频路径 -->
-        <source src="path/to/your-video.webm" type="video/webm"> <!-- 备选格式，兼容性更好 -->
-        <!-- 降级方案：视频加载失败时显示静态壁纸 -->
-        <img src="path/to/fallback-wallpaper.jpg" class="absolute inset-0 w-full h-full object-cover" alt="Fallback">
-    </video>
+    <video id="hero-video"
+       autoplay
+       muted
+       loop
+       playsinline
+       class="absolute inset-0 w-full h-full object-cover z-0">
+  <source src="assets/videos/background.mp4" type="video/mp4">
+</video>
+
 
     <canvas id="hero-canvas" class="hidden"></canvas>
 
@@ -193,7 +196,14 @@
                         <div id="vr-transition" class="absolute inset-0 flex items-center justify-center bg-black/90 transition-opacity duration-700 opacity-100">
                             <span class="text-white text-3xl font-orbitron animate-pulse">虚拟漫游加载中...</span>
                         </div>
-                        <video id="vr-video" class="fixed inset-0 w-full h-full object-cover bg-black" src="assets/videos/explore.mp4" style="display:none;" playsinline autoplay></video>
+                        <video id="vr-video"
+                            class="fixed inset-0 w-full h-full object-cover bg-black"
+                            src="assets/videos/explore.mp4"
+                            style="display:none;"
+                            autoplay
+                            muted
+                            playsinline>
+                        </video>
                     </div>
                     </a>
                 </div>
@@ -995,7 +1005,7 @@
         const closeBtn = document.getElementById('china-station-close');
         
         // Bilibili Embed URL with timestamp (8.4s) and autoplay
-        const bilibiliUrl = "assets/videos/China station.MP4";
+        const bilibiliUrl = "assets/videos/china-station.mp4";
 
         if (btn && modal && iframe && closeBtn) {
             btn.addEventListener('click', function() {
