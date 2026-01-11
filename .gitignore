@@ -1,8 +1,7 @@
-# 视频资源（体积较大）
-videos/
-*.mp4
-*.mov
-*.webm
+# 视频资源
+assets/videos/*.mp4
+assets/videos/*.mov
+assets/videos/*.webm
 
 # 系统文件
 .DS_Store
@@ -12,4 +11,5 @@ Thumbs.db
 .vscode/
 .idea/
 
+# 备份文件
 *.bak
