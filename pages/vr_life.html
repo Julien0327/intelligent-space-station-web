@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Module VR | Aetherius</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        neon: { cyan: '#00F0FF' }
+                    },
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #000; overflow: hidden; }
+        .vr-frame {
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            top: -25%;
+            left: -25%;
+            border: none;
+        }
+        .back-btn {
+            backdrop-filter: blur(5px);
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+        }
+        .back-btn:hover {
+            background: rgba(0, 240, 255, 0.2);
+            border-color: #00F0FF;
+        }
+    </style>
+</head>
+<body class="h-screen w-screen relative">
+    <!-- Title Overlay -->
+    <div id="title-overlay" class="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center transition-opacity duration-500">
+        <h1 class="font-orbitron text-4xl md:text-6xl text-white font-bold mb-8 tracking-wider text-center px-4">
+            <span class="text-neon-cyan block text-2xl mb-2">AETHERIUS MODULE</span>
+            智慧生活区
+        </h1>
+        <button onclick="document.getElementById('title-overlay').style.opacity='0'; setTimeout(() => document.getElementById('title-overlay').remove(), 500)" 
+                class="px-8 py-3 border border-neon-cyan text-neon-cyan hover:bg-neon-cyan hover:text-black transition-all font-orbitron tracking-widest rounded uppercase">
+            ENTER VR EXPERIENCE
+        </button>
+    </div>
+    <a href="../../index.html#modules" class="back-btn fixed top-6 left-6 z-50 text-white px-5 py-2 rounded-full flex items-center gap-2 transition-all duration-300 group">
+        <i class="fa-solid fa-arrow-left text-neon-cyan group-hover:-translate-x-1 transition-transform"></i>
+        <span class="font-orbitron text-sm tracking-wider">EXIT VR</span>
+    </a>
+    <iframe src="https://www.720yun.com/vr/a06jtOuyzm0" class="vr-frame" allowfullscreen allow="gyroscope; accelerometer"></iframe>
+</body>
+</html>

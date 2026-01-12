@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aetherius | 智能空间站 - 下一代太空生态枢纽</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        deep: {
+                            900: '#030712',
+                            800: '#0B1121'
+                        },
+                        neon: {
+                            cyan: '#00F0FF',
+                            blue: '#00A3FF',
+                            purple: '#BC13FE',
+                            silver: '#E0E0E0'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Roboto', 'sans-serif'],
+                        orbitron: ['Orbitron', 'sans-serif']
+                    },
+                    backgroundImage: {
+                        'space-gradient': 'linear-gradient(to bottom, #030712, #0B1121)',
+                        'card-gradient': 'linear-gradient(145deg, rgba(11, 17, 33, 0.9), rgba(3, 7, 18, 0.8))',
+                        'neon-gradient': 'linear-gradient(90deg, #00F0FF, #00A3FF)'
+                    },
+                    boxShadow: {
+                        'neon': '0 0 10px rgba(0, 240, 255, 0.3), 0 0 20px rgba(0, 240, 255, 0.1)',
+                        'neon-hover': '0 0 20px rgba(0, 240, 255, 0.6), 0 0 40px rgba(0, 240, 255, 0.3)'
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'orbit': 'orbit 8s linear infinite',
+                        'scanline': 'scanline 8s linear infinite'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        },
+                        orbit: {
+                            '0%': { 'offset-distance': '0%' },
+                            '100%': { 'offset-distance': '100%' }
+                        },
+                        scanline: {
+                            '0%': { transform: 'translateY(-100%)' },
+                            '100%': { transform: 'translateY(1000%)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="antialiased selection:bg-neon-cyan selection:text-black">
+
+    <!-- Header -->
+    <header class="fixed w-full z-50 glass transition-all duration-300" id="header">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 border-2 border-neon-cyan rounded-full flex items-center justify-center relative overflow-hidden group-hover:shadow-neon transition-all">
+                    <div class="absolute w-full h-[1px] bg-neon-cyan animate-spin-slow"></div>
+                    <i class="fa-solid fa-satellite text-neon-cyan text-lg"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-orbitron font-bold text-xl tracking-wider text-white">AETHERIUS</span>
+                    <span class="text-[10px] text-neon-blue tracking-[0.2em] uppercase">智能空间站</span>
+                </div>
+            </a>
+
+            <!-- Navigation -->
+            <nav class="hidden lg:flex items-center gap-8">
+                <a href="#home" class="text-sm hover:text-neon-cyan transition-colors">首页</a>
+                <a href="#about" class="text-sm hover:text-neon-cyan transition-colors">概况</a>
+                <a href="#tech" class="text-sm hover:text-neon-cyan transition-colors">核心技术</a>
+                <a href="#modules" class="text-sm hover:text-neon-cyan transition-colors">功能模块</a>
+                <a href="#science" class="text-sm hover:text-neon-cyan transition-colors">科研应用</a>
+                <a href="#contact" class="text-sm hover:text-neon-cyan transition-colors">合作</a>
+            </nav>
+
+            <!-- Actions -->
+            <div class="flex items-center gap-4">
+                <div class="hidden md:flex items-center gap-2 px-3 py-1 rounded-full border border-green-500/30 bg-green-500/10 cursor-pointer hover:bg-green-500/20 transition-all" id="system-status" onclick="cycleMode()">
+                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse" id="status-indicator"></span>
+                    <span class="text-xs text-green-400 font-mono" id="status-text">SYSTEM NORMAL</span>
+                </div>
+                <button class="text-white hover:text-neon-cyan transition-colors"><i class="fa-solid fa-search"></i></button>
+                <button class="text-white hover:text-neon-cyan transition-colors">EN/CN</button>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <button class="lg:hidden text-white text-2xl" id="mobile-menu-btn">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="lg:hidden hidden bg-deep-900/95 absolute w-full border-b border-white/10" id="mobile-menu">
+            <div class="flex flex-col p-6 gap-4">
+                <a href="#home" class="text-gray-300 hover:text-neon-cyan">首页</a>
+                <a href="#about" class="text-gray-300 hover:text-neon-cyan">概况</a>
+                <a href="#tech" class="text-gray-300 hover:text-neon-cyan">核心技术</a>
+                <a href="#modules" class="text-gray-300 hover:text-neon-cyan">功能模块</a>
+                <a href="#science" class="text-gray-300 hover:text-neon-cyan">科研应用</a>
+                <a href="#contact" class="text-gray-300 hover:text-neon-cyan">合作</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+   <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden pt-20">
+    <video id="hero-video"
+       autoplay
+       muted
+       loop
+       playsinline
+       class="absolute inset-0 w-full h-full object-cover z-0">
+  <source src="assets/videos/background.mp4" type="video/mp4">
+</video>
+
+
+    <canvas id="hero-canvas" class="hidden"></canvas>
+
+        <!-- Overlay Grid -->
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTAgNDBMMCAwTDQwIDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgwLDI0MCwyNTUsMC4wNSkiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] pointer-events-none"></div>
+
+        <div class="container mx-auto px-6 relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+            <!-- Text Content -->
+            <div class="text-center lg:text-left space-y-6">
+                <div class="inline-block px-4 py-1 border border-neon-cyan/30 rounded-full bg-neon-cyan/5 backdrop-blur-sm mb-4">
+                    <span class="text-neon-cyan text-sm font-mono tracking-wider"><i class="fa-solid fa-circle-nodes mr-2"></i>AI DRIVEN SPACE HUB</span>
+                </div>
+                <h1 class="font-orbitron text-5xl lg:text-7xl font-bold leading-tight">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">智能空间站</span>
+                    <br>
+                    <span class="text-transparent bg-clip-text bg-neon-gradient text-4xl lg:text-6xl">AETHERIUS</span>
+                </h1>
+                <p class="text-gray-400 text-lg lg:text-xl max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                    以AI自主决策为大脑，以传感网络为神经，以机器人
+                    <br>
+                    为手臂。让轨道成为可自我管理的<span class="text-white font-semibold">“太空城市”</span>。
+                </p>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 py-6">
+                    <div class="text-center lg:text-left">
+                        <div class="text-neon-cyan font-orbitron font-bold">自主运行</div>
+                        <div class="text-xs text-gray-500">AUTONOMY</div>
+                    </div>
+                    <div class="text-center lg:text-left">
+                        <div class="text-neon-cyan font-orbitron font-bold">智能预警</div>
+                        <div class="text-xs text-gray-500">WARNING</div>
+                    </div>
+                    <div class="text-center lg:text-left">
+                        <div class="text-neon-cyan font-orbitron font-bold">人机协同</div>
+                        <div class="text-xs text-gray-500">SYNERGY</div>
+                    </div>
+                    <div class="text-center lg:text-left">
+                        <div class="text-neon-cyan font-orbitron font-bold">循环生态</div>
+                        <div class="text-xs text-gray-500">ECOLOGY</div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                    <a href="#modules" class="px-8 py-4 bg-neon-cyan/10 border border-neon-cyan text-neon-cyan font-orbitron hover:bg-neon-cyan hover:text-black transition-all hover:shadow-neon rounded clip-corner">
+                        探索核心系统 <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </a>
+                    <a href="#" class="px-8 py-4 border border-white/20 text-white font-orbitron hover:bg-white/10 transition-all rounded">
+                        <i class="fa-solid fa-vr-cardboard mr-2"></i> 开启虚拟漫游
+                    </a>
+                    <!-- 虚拟漫游弹窗 -->
+                    <div id="vr-modal" class="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 transition-opacity duration-500 opacity-0 pointer-events-none">
+                        <div id="vr-transition" class="absolute inset-0 flex items-center justify-center bg-black/90 transition-opacity duration-700 opacity-100">
+                            <span class="text-white text-3xl font-orbitron animate-pulse">虚拟漫游加载中...</span>
+                        </div>
+                        <video id="vr-video"
+                            class="fixed inset-0 w-full h-full object-cover bg-black"
+                            src="assets/videos/explore.mp4"
+                            style="display:none;"
+                            autoplay
+                            muted
+                            playsinline>
+                        </video>
+                    </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Data Dashboard (Floating) -->
+            <div class="hidden lg:block relative animate-float">
+                <div class="glass telemetry-card p-6 rounded-xl border border-neon-cyan/20 max-w-md ml-auto">
+                    <div class="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+                        <span class="font-orbitron text-neon-cyan">LIVE TELEMETRY</span>
+                        <span class="text-xs text-gray-400 font-mono animate-pulse">● LIVE</span>
+                    </div>
+                    <div class="space-y-4 font-mono text-sm">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-400">轨道高度 (ALT)</span>
+                            <span class="text-white" id="data-alt">408.0 km</span>
+                        </div>
+                        <div class="w-full bg-gray-800 h-1 rounded-full overflow-hidden">
+                            <div class="bg-neon-blue h-full w-[80%] animate-pulse"></div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-400">轨道速度 (VEL)</span>
+                            <span class="text-white" id="data-vel">27,600 km/h</span>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-400">舱内温度 (TEMP)</span>
+                            <span class="text-white" id="data-temp">23.00 °C</span>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-400">AI 负载 (CPU)</span>
+                            <span class="text-neon-purple" id="data-cpu">42%</span>
+                        </div>
+                        <div class="w-full bg-gray-800 h-1 rounded-full overflow-hidden">
+                            <div class="bg-neon-purple h-full w-[42%]" id="bar-cpu"></div>
+                        </div>
+
+                        <div class="flex justify-between items-center pt-2">
+                            <span class="text-gray-400">氧气浓度</span>
+                            <span class="text-green-400">21.5%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Decorative Elements around dashboard -->
+                <div class="absolute -top-4 -right-4 w-20 h-20 border-t-2 border-r-2 border-neon-cyan/30 rounded-tr-xl"></div>
+                <div class="absolute -bottom-4 -left-4 w-20 h-20 border-b-2 border-l-2 border-neon-cyan/30 rounded-bl-xl"></div>
+            </div>
+        </div>
+
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-gray-500">
+            <i class="fa-solid fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 relative">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <h2 class="font-orbitron text-3xl md:text-4xl font-bold mb-4 text-glow">WHAT IS AETHERIUS?</h2>
+                <div class="w-20 h-1 bg-neon-cyan mx-auto"></div>
+                <p class="mt-6 text-gray-400 max-w-3xl mx-auto">
+                    面向长期在轨运行的“空间基础设施操作系统”。整合能源、环境控制、通信、姿轨控、载荷管理等子系统，
+                    具备持续感知、实时诊断、策略优化和自主执行能力。
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card 1 -->
+                <div class="glass-card p-8 rounded-xl reveal">
+                    <div class="text-neon-blue text-4xl mb-6"><i class="fa-solid fa-flask"></i></div>
+                    <a href="pages/team-research.html" class="hover:text-neon-cyan transition-colors"><h3 class="font-orbitron text-xl font-bold mb-3 text-white">科研团队</h3></a>
+                    <p class="text-gray-400 text-sm leading-relaxed">更快接入、更稳运行、更清晰数据链路，专注科学发现而非设备调试。</p>
+                    <a href="pages/team-research.html" class="text-neon-cyan text-xs mt-4 inline-block hover:underline">了解更多 <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                </div>
+                <!-- Card 2 -->
+                <div class="glass-card p-8 rounded-xl reveal" style="transition-delay: 100ms;">
+                    <div class="text-neon-cyan text-4xl mb-6"><i class="fa-solid fa-tower-broadcast"></i></div>
+                    <a href="pages/team-control.html" class="hover:text-neon-cyan transition-colors"><h3 class="font-orbitron text-xl font-bold mb-3 text-white">控制团队</h3></a>
+                    <p class="text-gray-400 text-sm leading-relaxed">AI过滤告警噪声，提供早期风险提示，实现高度自动化处置。</p>
+                    <a href="pages/team-control.html" class="text-neon-cyan text-xs mt-4 inline-block hover:underline">了解更多 <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                </div>
+                <!-- Card 3 -->
+                <div class="glass-card p-8 rounded-xl reveal" style="transition-delay: 200ms;">
+                    <div class="text-neon-purple text-4xl mb-6"><i class="fa-solid fa-user-astronaut"></i></div>
+                    <a href="pages/team-astronauts.html" class="hover:text-neon-cyan transition-colors"><h3 class="font-orbitron text-xl font-bold mb-3 text-white">航天员</h3></a>
+                    <p class="text-gray-400 text-sm leading-relaxed">更低操作负担，直观交互界面，打造更安全舒适的太空工作环境。</p>
+                    <a href="pages/team-astronauts.html" class="text-neon-cyan text-xs mt-4 inline-block hover:underline">了解更多 <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                </div>
+                <!-- Card 4 -->
+                <div class="glass-card p-8 rounded-xl reveal" style="transition-delay: 300ms;">
+                    <div class="text-green-400 text-4xl mb-6"><i class="fa-solid fa-handshake"></i></div>
+                    <a href="pages/team-partners.html" class="hover:text-neon-cyan transition-colors"><h3 class="font-orbitron text-xl font-bold mb-3 text-white">合作伙伴</h3></a>
+                    <p class="text-gray-400 text-sm leading-relaxed">标准化接口与模块化舱段，提供灵活可扩展的商业服务能力。</p>
+                    <a href="pages/team-partners.html" class="text-neon-cyan text-xs mt-4 inline-block hover:underline">了解更多 <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Architecture -->
+    <section id="tech" class="py-20 bg-deep-800/50 relative overflow-hidden">
+        <!-- Background decoration -->
+        <div class="absolute top-0 right-0 w-1/3 h-full bg-neon-blue/5 skew-x-12 transform origin-top"></div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="mb-16 reveal">
+                <span class="text-neon-cyan font-mono text-sm tracking-widest uppercase">Technology Architecture</span>
+                <h2 class="font-orbitron text-3xl md:text-4xl font-bold mt-2 text-white">核心技术架构</h2>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <!-- Layer 1 -->
+                    <div class="flex gap-6 group reveal">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-blue-900/50 flex items-center justify-center border border-blue-500/30 group-hover:bg-blue-500/20 transition-colors">
+                            <span class="font-mono text-blue-400 font-bold">01</span>
+                        </div>
+                        <div>
+                            <a href="pages/tech-perception.html"><h3 class="text-xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">感知层 (Sensors)</h3></a>
+                            <p class="text-gray-400 text-sm">多源传感融合（结构应力、温湿度、辐射等），高频异构数据实时采集，边缘缓存技术。</p>
+                        </div>
+                    </div>
+                    <!-- Layer 2 -->
+                    <div class="flex gap-6 group reveal">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-cyan-900/50 flex items-center justify-center border border-cyan-500/30 group-hover:bg-cyan-500/20 transition-colors">
+                            <span class="font-mono text-cyan-400 font-bold">02</span>
+                        </div>
+                        <div>
+                            <a href="pages/tech-platform.html"><h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">平台层 (Digital Twin)</h3></a>
+                            <p class="text-gray-400 text-sm">统一数据底座，全系统数字孪生（结构-热控-功耗映射），支持预测、演练与回放。</p>
+                        </div>
+                    </div>
+                    <!-- Layer 3 -->
+                    <div class="flex gap-6 group reveal">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-purple-900/50 flex items-center justify-center border border-purple-500/30 group-hover:bg-purple-500/20 transition-colors">
+                            <span class="font-mono text-purple-400 font-bold">03</span>
+                        </div>
+                        <div>
+                            <a href="pages/tech-intelligence.html"><h3 class="text-xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">智能层 (AI Brain)</h3></a>
+                            <p class="text-gray-400 text-sm">故障预测、寿命估计、异常检测，多目标优化决策，基于数据持续学习迭代。</p>
+                        </div>
+                    </div>
+                    <!-- Layer 4 -->
+                    <div class="flex gap-6 group reveal">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-green-900/50 flex items-center justify-center border border-green-500/30 group-hover:bg-green-500/20 transition-colors">
+                            <span class="font-mono text-green-400 font-bold">04</span>
+                        </div>
+                        <div>
+                            <a href="pages/tech-execution.html"><h3 class="text-xl font-bold text-white mb-2 group-hover:text-green-400 transition-colors">执行层 (Automation)</h3></a>
+                            <p class="text-gray-400 text-sm">舱内巡检/搬运机器人、舱外维修机械臂，告警-诊断-处置-复核全链路自动化。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visual Representation -->
+                <div class="relative h-[500px] w-full bg-black/40 rounded-2xl border border-white/10 p-4 overflow-hidden reveal">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                         <!-- Simplified CSS Animation for Tech Stack -->
+                         <div class="relative w-64 h-64">
+                             <div class="absolute inset-0 border-2 border-blue-500/30 rounded-full animate-[spin_10s_linear_infinite]">
+                                <div class="absolute top-0 left-1/2 w-2 h-2 bg-blue-400 rounded-full shadow-[0_0_8px_rgba(59,130,246,0.8)] -translate-x-1/2 -translate-y-1/2"></div>
+                             </div>
+                             <div class="absolute inset-4 border-2 border-cyan-500/30 rounded-full animate-[spin_15s_linear_infinite_reverse]">
+                                <div class="absolute bottom-0 left-1/2 w-2 h-2 bg-cyan-400 rounded-full shadow-[0_0_8px_rgba(34,211,238,0.8)] -translate-x-1/2 translate-y-1/2"></div>
+                             </div>
+                             <div class="absolute inset-8 border-2 border-purple-500/30 rounded-full animate-[spin_20s_linear_infinite]">
+                                <div class="absolute top-1/2 right-0 w-2 h-2 bg-purple-400 rounded-full shadow-[0_0_8px_rgba(168,85,247,0.8)] translate-x-1/2 -translate-y-1/2"></div>
+                             </div>
+                             
+                             <div class="absolute inset-0 flex items-center justify-center">
+                                 <div class="text-center">
+                                     <i class="fa-solid fa-brain text-4xl text-white animate-pulse"></i>
+                                     <div class="mt-2 text-xs font-mono text-neon-cyan">AI CORE</div>
+                                 </div>
+                             </div>
+
+                             <!-- Orbiting Dots -->
+                             <div class="absolute inset-0 pointer-events-none rotate-45">
+                                 <div class="absolute w-full h-full animate-orbit" style="offset-path: path('M 318 128 A 190 60 0 1 1 -62 128 A 190 60 0 1 1 318 128'); offset-rotate: 0deg;">
+                                     <div class="absolute top-1/2 left-1/2 w-3 h-3 bg-white rounded-full shadow-[0_0_10px_white] -translate-x-1/2 -translate-y-1/2"></div>
+                                 </div>
+                             </div>
+                         </div>
+                    </div>
+                    
+                    <!-- Stats Overlay -->
+                    <div class="absolute bottom-6 left-6 right-6 grid grid-cols-2 gap-4">
+                        <div class="bg-white/5 p-3 rounded border border-white/10">
+                            <div class="text-xs text-gray-400">系统稳定性</div>
+                            <div id="system-stability" class="text-lg font-bold text-green-400">99.999%</div>
+                        </div>
+                        <div class="bg-white/5 p-3 rounded border border-white/10">
+                            <div class="text-xs text-gray-400">自动处置率</div>
+                            <div id="auto-disposal" class="text-lg font-bold text-neon-cyan">92.4%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modules Section -->
+    <section id="modules" class="py-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <h2 class="font-orbitron text-3xl md:text-4xl font-bold mb-4 text-glow">STATION MODULES</h2>
+                <p class="text-gray-400">模块化舱段，无限扩展可能</p>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12 reveal">
+                <button onclick="switchModule('core')" class="module-btn active px-6 py-2 rounded-full border border-neon-cyan bg-neon-cyan/20 text-white font-orbitron text-sm transition-all hover:bg-neon-cyan hover:text-black" data-target="core">核心指挥舱</button>
+                <button onclick="switchModule('science')" class="module-btn px-6 py-2 rounded-full border border-gray-600 bg-transparent text-gray-400 font-orbitron text-sm transition-all hover:border-neon-cyan hover:text-white" data-target="science">科研实验舱</button>
+                <button onclick="switchModule('life')" class="module-btn px-6 py-2 rounded-full border border-gray-600 bg-transparent text-gray-400 font-orbitron text-sm transition-all hover:border-neon-cyan hover:text-white" data-target="life">智慧生活区</button>
+                <button onclick="switchModule('energy')" class="module-btn px-6 py-2 rounded-full border border-gray-600 bg-transparent text-gray-400 font-orbitron text-sm transition-all hover:border-neon-cyan hover:text-white" data-target="energy">能源供应舱</button>
+            </div>
+
+            <!-- Content Area -->
+            <div class="relative min-h-[400px] glass rounded-2xl p-8 lg:p-12 overflow-hidden reveal">
+                
+                <!-- Background Graphic -->
+                <div class="absolute top-0 right-0 w-full h-full opacity-10 pointer-events-none">
+                    <i class="fa-solid fa-satellite absolute -right-20 -top-20 text-[400px]"></i>
+                </div>
+
+                <!-- Core Module Content -->
+                <div id="module-core" class="module-content transition-opacity duration-500">
+                    <div class="grid lg:grid-cols-2 gap-12 relative z-10">
+                        <div>
+                            <h3 class="text-3xl font-bold text-white mb-2 font-orbitron">天枢 <span class="text-neon-cyan text-lg">TIANSHU CORE</span></h3>
+                            <p class="text-gray-300 mb-6 text-lg">整个空间站的大脑与心脏，集成最高级别的计算中心与聚变能源核心。</p>
+                            <ul class="space-y-4">
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-microchip text-neon-cyan mt-1"></i>
+                                    <div>
+                                        <strong class="text-white block">AI 数据中心</strong>
+                                        <span class="text-sm text-gray-400">每秒处理 100PB 数据，实时优化全站策略。</span>
+                                    </div>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-bolt text-neon-cyan mt-1"></i>
+                                    <div>
+                                        <strong class="text-white block">聚变能源核心</strong>
+                                        <span class="text-sm text-gray-400">微型可控核聚变装置，提供无限续航动力。</span>
+                                    </div>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-shield-halved text-neon-cyan mt-1"></i>
+                                    <div>
+                                        <strong class="text-white block">中央安防系统</strong>
+                                        <span class="text-sm text-gray-400">量子加密通信与物理防火墙，保障绝对安全。</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-black/50 rounded-xl border border-white/10 p-6 flex items-center justify-center group relative cursor-pointer">
+                            <a href="pages/vr_core.html" class="block w-full h-full relative">
+                                <img src="./assets/images/modules/module-command.png" alt="核心指挥舱3D模型" class="w-full h-full object-cover rounded-lg group-hover:opacity-80 transition-opacity">
+                                <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <div class="bg-black/70 rounded-full p-4 border border-neon-cyan">
+                                        <i class="fa-solid fa-vr-cardboard text-neon-cyan text-2xl"></i>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Science Module Content (Hidden by default) -->
+                <div id="module-science" class="module-content hidden transition-opacity duration-500">
+                    <div class="grid lg:grid-cols-2 gap-12 relative z-10">
+                        <div>
+                            <h3 class="text-3xl font-bold text-white mb-2 font-orbitron">星圃 <span class="text-neon-cyan text-lg">XINGPU LAB</span></h3>
+                            <p class="text-gray-300 mb-6 text-lg">多功能综合实验室，支持微重力、真空环境下的尖端科学研究。</p>
+                            <ul class="space-y-4">
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-dna text-neon-purple mt-1"></i>
+                                    <div>
+                                        <strong class="text-white block">生物基因舱</strong>
+                                        <span class="text-sm text-gray-400">抗辐射植物培育与基因编辑实验。</span>
+                                    </div>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-cube text-neon-purple mt-1"></i>
+                                    <div>
+                                        <strong class="text-white block">材料合成舱</strong>
+                                        <span class="text-sm text-gray-400">完美晶体生长与新型合金研发。</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                         <div class="bg-black/50 rounded-xl border border-white/10 p-6 flex items-center justify-center group relative cursor-pointer">
+                            <a href="pages/vr_science.html" class="block w-full h-full relative">
+                                <img src="./assets/images/modules/module-docking.png" alt="科研实验舱3D模型" class="w-full h-full object-cover rounded-lg group-hover:opacity-80 transition-opacity">
+                                <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <div class="bg-black/70 rounded-full p-4 border border-neon-cyan">
+                                        <i class="fa-solid fa-vr-cardboard text-neon-cyan text-2xl"></i>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Life Module Content (Hidden by default) -->
+                <div id="module-life" class="module-content hidden transition-opacity duration-500">
+                    <div class="grid lg:grid-cols-2 gap-12 relative z-10">
+                        <div>
+                            <h3 class="text-3xl font-bold text-white mb-2 font-orbitron">栖息 <span class="text-neon-cyan text-lg">HABITAT</span></h3>
+                            <p class="text-gray-300 mb-6 text-lg">以人为本的智慧生活空间，提供模拟重力与极致舒适。</p>
+                            <ul class="space-y-4">
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-bed text-green-400 mt-1"></i>
+                                    <div>
+                                        <strong class="text-white block">智能睡眠舱</strong>
+                                        <span class="text-sm text-gray-400">光照、温度、声音随生理节律自适应调节。</span>
+                                    </div>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-person-running text-green-400 mt-1"></i>
+                                    <div>
+                                        <strong class="text-white block">离心重力区</strong>
+                                        <span class="text-sm text-gray-400">0.6g 模拟重力，防止骨质流失与肌肉萎缩。</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                         <div class="bg-black/50 rounded-xl border border-white/10 p-6 flex items-center justify-center group relative cursor-pointer">
+                            <a href="pages/vr_life.html" class="block w-full h-full relative">
+                                <img src="./assets/images/modules/module-life-support.png" alt="智慧生活区3D模型" class="w-full h-full object-cover rounded-lg group-hover:opacity-80 transition-opacity">
+                                <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <div class="bg-black/70 rounded-full p-4 border border-neon-cyan">
+                                        <i class="fa-solid fa-vr-cardboard text-neon-cyan text-2xl"></i>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                 <!-- Energy Module Content (Hidden by default) -->
+                 <div id="module-energy" class="module-content hidden transition-opacity duration-500">
+                    <div class="grid lg:grid-cols-2 gap-12 relative z-10">
+                        <div>
+                            <h3 class="text-3xl font-bold text-white mb-2 font-orbitron">光合 <span class="text-neon-cyan text-lg">SOLAR ARRAY</span></h3>
+                            <p class="text-gray-300 mb-6 text-lg">下一代柔性太阳能翼与储能矩阵，确保能源永续。</p>
+                            <ul class="space-y-4">
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-solar-panel text-yellow-400 mt-1"></i>
+                                    <div>
+                                        <strong class="text-white block">柔性太阳能翼</strong>
+                                        <span class="text-sm text-gray-400">光电转化率达45%，自动追光调节。</span>
+                                    </div>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-battery-full text-yellow-400 mt-1"></i>
+                                    <div>
+                                        <strong class="text-white block">固态储能矩阵</strong>
+                                        <span class="text-sm text-gray-400">高密度储能，支持阴影区全功率运行。</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                         <div class="bg-black/50 rounded-xl border border-white/10 p-6 flex items-center justify-center group relative cursor-pointer">
+                            <a href="pages/vr_energy.html" class="block w-full h-full relative">
+                                <img src="./assets/images/modules/module-power.png" alt="能源供应舱3D模型" class="w-full h-full object-cover rounded-lg group-hover:opacity-80 transition-opacity">
+                                <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <div class="bg-black/70 rounded-full p-4 border border-neon-cyan">
+                                        <i class="fa-solid fa-vr-cardboard text-neon-cyan text-2xl"></i>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Narrative / Timeline Section -->
+    <section id="narrative" class="py-20 bg-deep-800/30 relative overflow-hidden">
+        <!-- Background decorative elements -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+            <div class="absolute top-1/4 left-0 w-64 h-64 bg-neon-cyan/5 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-1/4 right-0 w-96 h-96 bg-neon-purple/5 rounded-full blur-3xl"></div>
+        </div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-16 reveal">
+                <span class="text-neon-cyan font-mono text-sm tracking-widest uppercase">SCENARIO NARRATIVE</span>
+                <h2 class="font-orbitron text-3xl md:text-4xl font-bold mt-2 text-white">站内一日 <span class="text-neon-blue text-2xl align-top">24H</span></h2>
+                <p class="text-gray-400 mt-2">AI 全程护航的太空生活流</p>
+            </div>
+
+            <div class="relative max-w-5xl mx-auto timeline-line">
+                <!-- Center Line -->
+                <div class="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-neon-cyan/20 to-transparent md:-translate-x-1/2"></div>
+
+                <!-- 02:00 Deep Sleep -->
+                <div class="relative pl-20 md:pl-0 mb-16 group reveal md:flex md:justify-between items-center w-full">
+                    <!-- Left Image -->
+                    <div class="hidden md:block md:w-1/2 md:pr-12">
+                        <div class="relative overflow-hidden rounded-xl border border-white/5 h-40 group-hover:border-neon-purple/50 transition-all duration-500">
+                            <img src="assets/images/modules/module-life-support.png" alt="Sleep Monitor" class="w-full h-full object-cover opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-l from-deep-900/80 via-transparent to-transparent"></div>
+                        </div>
+                    </div>
+
+                    <div class="md:w-1/2 md:pl-12">
+                        <div class="glass-card p-6 rounded-xl border border-white/5 hover:border-neon-purple/50 transition-all relative hover:translate-x-2 duration-300">
+                            <div class="absolute -left-[53px] md:-left-[53px] top-6 w-3 h-3 bg-deep-900 border border-neon-purple rounded-full z-20 group-hover:bg-neon-purple group-hover:shadow-[0_0_10px_#BC13FE] transition-all"></div>
+                            <div class="absolute -left-[53px] md:-left-[53px] top-7 w-8 h-px bg-neon-purple/50"></div>
+                            
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="font-orbitron text-2xl text-neon-purple font-bold">02:00</div>
+                                <div class="px-2 py-0.5 rounded bg-neon-purple/10 border border-neon-purple/30 text-[10px] text-neon-purple uppercase tracking-wider">Sleep Mode</div>
+                            </div>
+                            <h4 class="text-lg text-white font-bold mb-2">深层睡眠监测</h4>
+                            <p class="text-gray-400 text-sm mb-3">环境噪音降至 25dB，温湿度自动微调。AI 实时监测宇航员 REM 周期，确保神经系统充分修复。</p>
+                            <div class="text-xs font-mono text-gray-500 border-t border-white/5 pt-2 flex gap-4">
+                                <span><i class="fa-solid fa-heart-pulse mr-1"></i> 58 BPM</span>
+                                <span><i class="fa-solid fa-wind mr-1"></i> 98% O2</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 06:00 Wake Up (Left) -->
+                <div class="relative pl-20 md:pl-0 mb-16 group reveal md:flex md:justify-between items-center w-full">
+                     <div class="md:w-1/2 md:pr-12 md:text-right">
+                        <div class="glass-card p-6 rounded-xl border border-white/5 hover:border-neon-cyan/50 transition-all relative hover:-translate-x-2 duration-300">
+                             <div class="absolute -left-[53px] md:auto md:-right-[53px] top-6 w-3 h-3 bg-deep-900 border border-neon-cyan rounded-full z-20 group-hover:bg-neon-cyan group-hover:shadow-[0_0_10px_#00F0FF] transition-all"></div>
+                             <div class="absolute -left-[53px] md:auto md:-right-[53px] top-7 w-8 h-px bg-neon-cyan/50"></div>
+
+                            <div class="flex justify-between md:justify-end items-start mb-2 gap-4">
+                                <div class="font-orbitron text-2xl text-neon-cyan font-bold order-1 md:order-2">06:00</div>
+                                <div class="px-2 py-0.5 rounded bg-neon-cyan/10 border border-neon-cyan/30 text-[10px] text-neon-cyan uppercase tracking-wider order-2 md:order-1">Active</div>
+                            </div>
+                            <h4 class="text-lg text-white font-bold mb-2">智能唤醒程序</h4>
+                            <p class="text-gray-400 text-sm mb-3">模拟日出光效渐亮，AI 语音播报空间站状态摘要与今日任务清单，自动制备个性化营养早餐。</p>
+                            <div class="text-xs font-mono text-gray-500 border-t border-white/5 pt-2">
+                                SYSTEM CHECK: <span class="text-green-400">NORMAL</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Image -->
+                    <div class="hidden md:block md:w-1/2 md:pl-12">
+                        <div class="relative overflow-hidden rounded-xl border border-white/5 h-40 group-hover:border-neon-cyan/50 transition-all duration-500">
+                            <img src="assets/images/scenes/sm.png" alt="Wake Up" class="w-full h-full object-cover opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-r from-deep-900/80 via-transparent to-transparent"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 09:30 Research (Right) -->
+                 <div class="relative pl-20 md:pl-0 mb-16 group reveal md:flex md:justify-between items-center w-full">
+                    <!-- Left Image -->
+                    <div class="hidden md:block md:w-1/2 md:pr-12">
+                        <div class="relative overflow-hidden rounded-xl border border-white/5 h-40 group-hover:border-blue-400/50 transition-all duration-500">
+                            <img src="assets/images/modules/module-docking.png" alt="Research Lab" class="w-full h-full object-cover opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-l from-deep-900/80 via-transparent to-transparent"></div>
+                        </div>
+                    </div>
+
+                    <div class="md:w-1/2 md:pl-12">
+                        <div class="glass-card p-6 rounded-xl border border-white/5 hover:border-blue-400/50 transition-all relative hover:translate-x-2 duration-300">
+                            <div class="absolute -left-[53px] md:-left-[53px] top-6 w-3 h-3 bg-deep-900 border border-blue-400 rounded-full z-20 group-hover:bg-blue-400 group-hover:shadow-[0_0_10px_#60A5FA] transition-all"></div>
+                            <div class="absolute -left-[53px] md:-left-[53px] top-7 w-8 h-px bg-blue-400/50"></div>
+                            
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="font-orbitron text-2xl text-blue-400 font-bold">09:30</div>
+                                <div class="px-2 py-0.5 rounded bg-blue-400/10 border border-blue-400/30 text-[10px] text-blue-400 uppercase tracking-wider">Work</div>
+                            </div>
+                            <h4 class="text-lg text-white font-bold mb-2">协同科研任务</h4>
+                            <p class="text-gray-400 text-sm mb-3">AI 动态分配算力资源，AR 眼镜实时叠加实验数据与操作指引。机械臂辅助完成高精度样本处理。</p>
+                            <div class="text-xs font-mono text-gray-500 border-t border-white/5 pt-2">
+                                TASK: <span class="text-white">GENOME_SEQ_04</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 13:00 Maintenance (Left) -->
+                <div class="relative pl-20 md:pl-0 mb-16 group reveal md:flex md:justify-between items-center w-full">
+                     <div class="md:w-1/2 md:pr-12 md:text-right">
+                        <div class="glass-card p-6 rounded-xl border border-white/5 hover:border-orange-400/50 transition-all relative hover:-translate-x-2 duration-300">
+                             <div class="absolute -left-[53px] md:auto md:-right-[53px] top-6 w-3 h-3 bg-deep-900 border border-orange-400 rounded-full z-20 group-hover:bg-orange-400 group-hover:shadow-[0_0_10px_#FB923C] transition-all"></div>
+                             <div class="absolute -left-[53px] md:auto md:-right-[53px] top-7 w-8 h-px bg-orange-400/50"></div>
+
+                            <div class="flex justify-between md:justify-end items-start mb-2 gap-4">
+                                <div class="font-orbitron text-2xl text-orange-400 font-bold order-1 md:order-2">13:00</div>
+                                <div class="px-2 py-0.5 rounded bg-orange-400/10 border border-orange-400/30 text-[10px] text-orange-400 uppercase tracking-wider order-2 md:order-1">Alert</div>
+                            </div>
+                            <h4 class="text-lg text-white font-bold mb-2">异常预警处置</h4>
+                            <p class="text-gray-400 text-sm mb-3">监测到热控回路微小压力波动。AI 立即启动备用回路，并生成详细维修方案供下午出舱参考。</p>
+                            <div class="text-xs font-mono text-gray-500 border-t border-white/5 pt-2">
+                                RISK LEVEL: <span class="text-orange-400">LOW (AUTO-FIXED)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Image -->
+                    <div class="hidden md:block md:w-1/2 md:pl-12">
+                        <div class="relative overflow-hidden rounded-xl border border-white/5 h-40 group-hover:border-orange-400/50 transition-all duration-500">
+                            <img src="assets/images/modules/module-command.png" alt="Control Center" class="w-full h-full object-cover opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-r from-deep-900/80 via-transparent to-transparent"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 16:30 Exercise (Right) -->
+                 <div class="relative pl-20 md:pl-0 mb-16 group reveal md:flex md:justify-between items-center w-full">
+                    <!-- Left Image -->
+                    <div class="hidden md:block md:w-1/2 md:pr-12">
+                        <div class="relative overflow-hidden rounded-xl border border-white/5 h-40 group-hover:border-green-400/50 transition-all duration-500">
+                            <img src="assets/images/scenes/cl.png" alt="Exercise View" class="w-full h-full object-cover opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-l from-deep-900/80 via-transparent to-transparent"></div>
+                        </div>
+                    </div>
+
+                    <div class="md:w-1/2 md:pl-12">
+                        <div class="glass-card p-6 rounded-xl border border-white/5 hover:border-green-400/50 transition-all relative hover:translate-x-2 duration-300">
+                            <div class="absolute -left-[53px] md:-left-[53px] top-6 w-3 h-3 bg-deep-900 border border-green-400 rounded-full z-20 group-hover:bg-green-400 group-hover:shadow-[0_0_10px_#4ADE80] transition-all"></div>
+                            <div class="absolute -left-[53px] md:-left-[53px] top-7 w-8 h-px bg-green-400/50"></div>
+                            
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="font-orbitron text-2xl text-green-400 font-bold">16:30</div>
+                                <div class="px-2 py-0.5 rounded bg-green-400/10 border border-green-400/30 text-[10px] text-green-400 uppercase tracking-wider">Health</div>
+                            </div>
+                            <h4 class="text-lg text-white font-bold mb-2">生理机能维护</h4>
+                            <p class="text-gray-400 text-sm mb-3">根据今日骨流失模型，AI 动态调整跑步机阻力参数。VR 场景模拟地球森林环境，缓解心理压力。</p>
+                            <div class="text-xs font-mono text-gray-500 border-t border-white/5 pt-2">
+                                LOAD: <span class="text-white">1.2G SIMULATION</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- 21:00 Sync (Left) -->
+                <div class="relative pl-20 md:pl-0 mb-0 group reveal md:flex md:justify-between items-center w-full">
+                     <div class="md:w-1/2 md:pr-12 md:text-right">
+                        <div class="glass-card p-6 rounded-xl border border-white/5 hover:border-neon-silver/50 transition-all relative hover:-translate-x-2 duration-300">
+                             <div class="absolute -left-[53px] md:auto md:-right-[53px] top-6 w-3 h-3 bg-deep-900 border border-neon-silver rounded-full z-20 group-hover:bg-neon-silver group-hover:shadow-[0_0_10px_#E0E0E0] transition-all"></div>
+                             <div class="absolute -left-[53px] md:auto md:-right-[53px] top-7 w-8 h-px bg-neon-silver/50"></div>
+
+                            <div class="flex justify-between md:justify-end items-start mb-2 gap-4">
+                                <div class="font-orbitron text-2xl text-neon-silver font-bold order-1 md:order-2">21:00</div>
+                                <div class="px-2 py-0.5 rounded bg-neon-silver/10 border border-neon-silver/30 text-[10px] text-neon-silver uppercase tracking-wider order-2 md:order-1">Sync</div>
+                            </div>
+                            <h4 class="text-lg text-white font-bold mb-2">地空数据同步</h4>
+                            <p class="text-gray-400 text-sm mb-3">全天实验数据通过激光链路回传地球。AI 模型根据今日运行参数进行自我迭代更新。</p>
+                            <div class="text-xs font-mono text-gray-500 border-t border-white/5 pt-2">
+                                UPLINK: <span class="text-neon-silver">100 TB COMPLETE</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Image -->
+                    <div class="hidden md:block md:w-1/2 md:pl-12">
+                        <div class="relative overflow-hidden rounded-xl border border-white/5 h-40 group-hover:border-neon-silver/50 transition-all duration-500">
+                            <img src="assets/images/modules/module-power.png" alt="Data Sync" class="w-full h-full object-cover opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-r from-deep-900/80 via-transparent to-transparent"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Science & Applications -->
+    <section id="science" class="py-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <h2 class="font-orbitron text-3xl md:text-4xl font-bold mb-4 text-glow">科研与应用</h2>
+                <p class="text-gray-400">连接地球与深空的价值枢纽</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Life Science -->
+                <a href="pages/science-life.html" class="block glass-card p-6 rounded-xl group hover:bg-white/5 reveal transition-transform hover:-translate-y-2 cursor-pointer">
+                    <div class="h-40 bg-gradient-to-br from-green-900 to-black rounded-lg mb-4 flex items-center justify-center relative overflow-hidden">
+                        <i class="fa-solid fa-seedling text-5xl text-green-500/50 group-hover:text-green-400 transition-colors z-10"></i>
+                         <div class="absolute inset-0 bg-[url('./assets/images/scenes/sm.png')] bg-cover transform group-hover:scale-110 transition-transform duration-700"></div>
+                    </div>
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-xl font-bold text-white">生命科学</h3>
+                        <i class="fa-solid fa-arrow-right text-green-400 opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1"></i>
+                    </div>
+                    <p class="text-gray-400 text-sm">微重力生物反应、抗辐射植物培育、太空制药。</p>
+                </a>
+                
+                <!-- Material Science -->
+                <a href="pages/science-material.html" class="block glass-card p-6 rounded-xl group hover:bg-white/5 reveal transition-transform hover:-translate-y-2 cursor-pointer" style="transition-delay: 100ms;">
+                    <div class="h-40 bg-gradient-to-br from-blue-900 to-black rounded-lg mb-4 flex items-center justify-center relative overflow-hidden">
+                        <i class="fa-solid fa-layer-group text-5xl text-blue-500/50 group-hover:text-blue-400 transition-colors z-10"></i>
+                         <div class="absolute inset-0 bg-[url('./assets/images/scenes/cl.png')] bg-cover transform group-hover:scale-110 transition-transform duration-700"></div>
+                    </div>
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-xl font-bold text-white">材料科学</h3>
+                        <i class="fa-solid fa-arrow-right text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1"></i>
+                    </div>
+                    <p class="text-gray-400 text-sm">新型材料制备、完美晶体合成、特殊合金研发。</p>
+                </a>
+
+                <!-- Astronomy -->
+                <a href="pages/science-astronomy.html" class="block glass-card p-6 rounded-xl group hover:bg-white/5 reveal transition-transform hover:-translate-y-2 cursor-pointer" style="transition-delay: 200ms;">
+                    <div class="h-40 bg-gradient-to-br from-purple-900 to-black rounded-lg mb-4 flex items-center justify-center relative overflow-hidden">
+                        <i class="fa-solid fa-eye text-5xl text-purple-500/50 group-hover:text-purple-400 transition-colors z-10"></i>
+                        <div class="absolute inset-0 bg-[url('./assets/images/scenes/tw.png')] bg-cover transform group-hover:scale-110 transition-transform duration-700"></div>
+                    </div>
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-xl font-bold text-white">天文观测</h3>
+                        <i class="fa-solid fa-arrow-right text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1"></i>
+                    </div>
+                    <p class="text-gray-400 text-sm">无大气干扰深空观测、系外行星光谱扫描。</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap -->
+    <section id="roadmap" class="py-20 bg-deep-800/30">
+        <div class="container mx-auto px-6">
+            <div class="mb-16 reveal">
+                <h2 class="font-orbitron text-3xl md:text-4xl font-bold mb-4 text-white">FUTURE ROADMAP</h2>
+                <div class="w-20 h-1 bg-neon-cyan"></div>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-4">
+                <div class="border-t-2 border-neon-cyan pt-6 relative reveal">
+                    <div class="absolute top-0 left-0 w-4 h-4 bg-neon-cyan -translate-y-1/2 rounded-full shadow-neon"></div>
+                    <span class="text-neon-cyan font-bold text-lg block mb-2">Phase 1 (Current)</span>
+                    <h4 class="text-white font-bold mb-2">单系统智能化</h4>
+                    <p class="text-gray-400 text-sm">预测与告警降噪，实现基础的AI辅助。</p>
+                </div>
+                <div class="border-t-2 border-gray-600 pt-6 relative reveal" style="transition-delay: 100ms;">
+                    <div class="absolute top-0 left-0 w-3 h-3 bg-gray-600 -translate-y-1/2 rounded-full"></div>
+                    <span class="text-gray-400 font-bold text-lg block mb-2">Phase 2</span>
+                    <h4 class="text-white font-bold mb-2">跨系统协同</h4>
+                    <p class="text-gray-400 text-sm">能耗、热控与任务的联动优化。</p>
+                </div>
+                <div class="border-t-2 border-gray-600 pt-6 relative reveal" style="transition-delay: 200ms;">
+                    <div class="absolute top-0 left-0 w-3 h-3 bg-gray-600 -translate-y-1/2 rounded-full"></div>
+                    <span class="text-gray-400 font-bold text-lg block mb-2">Phase 3</span>
+                    <h4 class="text-white font-bold mb-2">闭环自治运行</h4>
+                    <p class="text-gray-400 text-sm">诊断-决策-执行-复盘全自主完成。</p>
+                </div>
+                <div class="border-t-2 border-gray-600 pt-6 relative reveal" style="transition-delay: 300ms;">
+                    <div class="absolute top-0 left-0 w-3 h-3 bg-gray-600 -translate-y-1/2 rounded-full"></div>
+                    <span class="text-gray-400 font-bold text-lg block mb-2">Phase 4</span>
+                    <h4 class="text-white font-bold mb-2">轨道生态网络</h4>
+                    <p class="text-gray-400 text-sm">多站协同，构建地月空间基础设施网。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Footer -->
+    <section id="contact" class="py-20 relative overflow-hidden">
+        <div class="absolute inset-0 bg-neon-blue/5 skew-y-3 transform origin-bottom-left pointer-events-none"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12">
+                <div class="reveal">
+                    <h2 class="font-orbitron text-3xl md:text-4xl font-bold mb-6 text-white">加入我们</h2>
+                    <p class="text-gray-400 mb-8">
+                        无论是科研合作、载荷接入，还是加入我们的团队，AETHERIUS 都期待与您共创未来。
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-4 text-gray-300 hover:text-neon-cyan transition-colors cursor-pointer">
+                            <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <span>123@456.com</span>
+                        </div>
+                        <div class="flex items-center gap-4 text-gray-300 hover:text-neon-cyan transition-colors cursor-pointer">
+                            <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                                <i class="fa-brands fa-github"></i>
+                            </div>
+                            <span>github.com/123465</span>
+                        </div>
+                        <div class="flex items-center gap-4 text-gray-300 hover:text-neon-cyan transition-colors cursor-pointer">
+                            <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                                <i class="fa-brands fa-twitter"></i>
+                            </div>
+                            <span>@123456</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass p-8 rounded-xl reveal">
+                    <h3 class="text-xl font-bold text-white mb-6">发送消息</h3>
+                    <form class="space-y-4" onsubmit="event.preventDefault(); alert('消息已模拟发送！');">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <input type="text" placeholder="姓名" class="bg-black/40 border border-white/10 rounded px-4 py-3 text-white focus:border-neon-cyan focus:outline-none transition-colors">
+                            <input type="email" placeholder="邮箱" class="bg-black/40 border border-white/10 rounded px-4 py-3 text-white focus:border-neon-cyan focus:outline-none transition-colors">
+                        </div>
+                        <select class="w-full bg-black/40 border border-white/10 rounded px-4 py-3 text-gray-400 focus:border-neon-cyan focus:outline-none transition-colors">
+                            <option>合作咨询</option>
+                            <option>载荷接入</option>
+                            <option>科普预约</option>
+                        </select>
+                        <textarea placeholder="留言内容..." rows="4" class="w-full bg-black/40 border border-white/10 rounded px-4 py-3 text-white focus:border-neon-cyan focus:outline-none transition-colors"></textarea>
+                        <button class="w-full py-3 bg-neon-cyan text-black font-bold font-orbitron hover:bg-white transition-colors rounded">
+                            发送请求
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 bg-black py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <span class="font-orbitron font-bold text-xl text-white">AETHERIUS</span>
+                    <p class="text-gray-500 text-sm mt-4">连接地球与太空的智能枢纽。</p>
+                    <button id="china-station-btn" class="mt-4 px-4 py-2 bg-red-600/20 border border-red-500 text-red-500 hover:bg-red-600 hover:text-white transition-all rounded font-orbitron text-sm flex items-center gap-2 group">
+                        <i class="fa-solid fa-star text-red-500 group-hover:text-white transition-colors"></i> 中国空间站
+                    </button>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">导航</h4>
+                    <ul class="space-y-2 text-sm text-gray-500">
+                        <li><a href="#" class="hover:text-neon-cyan">首页</a></li>
+                        <li><a href="#" class="hover:text-neon-cyan">核心技术</a></li>
+                        <li><a href="#" class="hover:text-neon-cyan">科研应用</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">资源</h4>
+                    <ul class="space-y-2 text-sm text-gray-500">
+                        <li><a href="#" class="hover:text-neon-cyan">技术白皮书</a></li>
+                        <li><a href="#" class="hover:text-neon-cyan">API 文档</a></li>
+                        <li><a href="#" class="hover:text-neon-cyan">常见问题</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">订阅</h4>
+                    <div class="flex">
+                        <input type="text" placeholder="Email" class="bg-white/5 border border-white/10 px-3 py-2 text-sm text-white focus:outline-none rounded-l">
+                        <button class="bg-neon-cyan text-black px-4 py-2 text-sm font-bold rounded-r hover:bg-white transition-colors">OK</button>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center text-gray-600 text-xs border-t border-white/5 pt-8">
+                &copy; 2050 Aetherius Space Agency. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- HUD Scanline Overlay -->
+    <div class="fixed inset-0 pointer-events-none z-[100] opacity-20 hidden" id="hud-overlay">
+        <div class="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-[100] bg-[length:100%_2px,3px_100%] pointer-events-none"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-neon-cyan/5 to-transparent h-[10%] w-full animate-scanline"></div>
+    </div>
+
+    <!-- System Log Terminal -->
+    <div class="fixed bottom-4 right-4 z-40 w-80 font-mono text-xs hidden lg:block">
+        <div class="glass border border-white/10 rounded-lg overflow-hidden">
+            <div class="bg-black/40 px-3 py-1 border-b border-white/10 flex justify-between items-center">
+                <span class="text-gray-400">SYSTEM LOG</span>
+                <div class="flex gap-1">
+                    <div class="w-2 h-2 rounded-full bg-red-500/50"></div>
+                    <div class="w-2 h-2 rounded-full bg-yellow-500/50"></div>
+                    <div class="w-2 h-2 rounded-full bg-green-500/50"></div>
+                </div>
+            </div>
+            <div class="h-32 overflow-y-auto p-3 space-y-1 scrollbar-hide" id="system-log">
+                <!-- Logs will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- China Station Video Modal -->
+    <div id="china-station-modal" class="fixed inset-0 z-[200] flex items-center justify-center bg-black/90 transition-opacity duration-500 opacity-0 pointer-events-none backdrop-blur-sm">
+        <div class="relative w-full h-full flex items-center justify-center p-0">
+             <button id="china-station-close" class="absolute top-4 right-4 md:top-8 md:right-8 text-white text-4xl hover:text-red-500 transition-colors z-[210] cursor-pointer bg-black/50 rounded-full w-12 h-12 flex items-center justify-center border border-white/20">
+                <i class="fa-solid fa-times"></i>
+            </button>
+            <iframe id="china-station-iframe" class="w-full h-full" frameborder="0" allowfullscreen="true" allow="autoplay; fullscreen"></iframe>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const btn = document.getElementById('china-station-btn');
+        const modal = document.getElementById('china-station-modal');
+        const iframe = document.getElementById('china-station-iframe');
+        const closeBtn = document.getElementById('china-station-close');
+        
+        // Bilibili Embed URL with timestamp (8.4s) and autoplay
+        const bilibiliUrl = "assets/videos/china-station.mp4";
+
+        if (btn && modal && iframe && closeBtn) {
+            btn.addEventListener('click', function() {
+                modal.classList.remove('pointer-events-none', 'opacity-0');
+                modal.classList.add('opacity-100');
+                // Set src to trigger load and play
+                iframe.src = bilibiliUrl;
+                // Try to trigger browser full screen for the modal
+                if (modal.requestFullscreen) {
+                    modal.requestFullscreen().catch(err => console.log("Fullscreen blocked:", err));
+                } else if (modal.webkitRequestFullscreen) { /* Safari */
+                    modal.webkitRequestFullscreen();
+                } else if (modal.msRequestFullscreen) { /* IE11 */
+                    modal.msRequestFullscreen();
+                }
+            });
+
+            const closeModal = () => {
+                modal.classList.remove('opacity-100');
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                // Exit full screen if active
+                if (document.fullscreenElement) {
+                    document.exitFullscreen().catch(err => console.log("Exit fullscreen error:", err));
+                }
+                setTimeout(() => {
+                    // Clear src to stop playback
+                    iframe.src = '';
+                }, 500);
+            };
+
+            closeBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', function(e) {
+                // Click on background (not iframe) closes modal
+                if (e.target === modal || e.target.classList.contains('flex')) {
+                     closeModal();
+                }
+            });
+        }
+    });
+    </script>
+
+    <!-- Scripts -->
+    <script src="assets/js/main.js" defer></script>
+<script>
+// 虚拟漫游弹窗逻辑
+document.addEventListener('DOMContentLoaded', function() {
+    const vrBtn = document.querySelector('a:has(.fa-vr-cardboard)');
+    const vrModal = document.getElementById('vr-modal');
+    const vrVideo = document.getElementById('vr-video');
+    const vrTransition = document.getElementById('vr-transition');
+    if (vrBtn && vrModal && vrVideo && vrTransition) {
+        vrBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            vrModal.classList.remove('pointer-events-none');
+            vrModal.classList.add('opacity-100');
+            vrModal.classList.remove('opacity-0');
+            vrTransition.style.opacity = '1';
+            vrVideo.style.display = 'none';
+            setTimeout(() => {
+                vrTransition.style.opacity = '0';
+                setTimeout(() => {
+                    vrTransition.style.display = 'none';
+                    vrVideo.style.display = '';
+                    vrVideo.currentTime = 0;
+                    vrVideo.play();
+                    // 视频开始时平滑滚动到WHAT IS AETHERIUS标题
+                    const whatTitle = Array.from(document.querySelectorAll('h2')).find(h2 => h2.textContent && h2.textContent.includes('WHAT IS AETHERIUS'));
+                    if (whatTitle) {
+                        const rect = whatTitle.getBoundingClientRect();
+                        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                        const targetY = rect.top + scrollTop - 150; // 上方偏移100px
+                        window.scrollTo({top: targetY, behavior: 'smooth'});
+                    } else {
+                        location.hash = '#about';
+                    }
+                }, 700);
+            }, 1200); // 过渡动画持续1.2s
+        });
+        // 视频播放结束自动关闭
+        vrVideo.addEventListener('ended', function() {
+            vrModal.classList.remove('opacity-100');
+            vrModal.classList.add('opacity-0');
+            setTimeout(() => {
+                vrModal.classList.add('pointer-events-none');
+                vrTransition.style.display = '';
+                vrTransition.style.opacity = '1';
+                vrVideo.style.display = 'none';
+            }, 500);
+        });
+        // 点击黑色背景关闭
+        vrModal.addEventListener('click', function(e) {
+            if (e.target === vrModal) {
+                vrModal.classList.remove('opacity-100');
+                vrModal.classList.add('opacity-0');
+                setTimeout(() => {
+                    vrModal.classList.add('pointer-events-none');
+                    vrTransition.style.display = '';
+                    vrTransition.style.opacity = '1';
+                    vrVideo.style.display = 'none';
+                    vrVideo.pause();
+                }, 500);
+            }
+        });
+        // 隐藏进度条和所有原生控件
+        vrVideo.controls = false;
+    }
+});
+</script>
+</body>
+</html>
