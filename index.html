@@ -192,9 +192,9 @@
                     <a href="#modules" class="px-8 py-4 bg-neon-cyan/10 border border-neon-cyan text-neon-cyan font-orbitron hover:bg-neon-cyan hover:text-black transition-all hover:shadow-neon rounded clip-corner">
                         探索核心系统 <i class="fa-solid fa-arrow-right ml-2"></i>
                     </a>
-                    <a href="#" class="px-8 py-4 border border-white/20 text-white font-orbitron hover:bg-white/10 transition-all rounded">
+                    <button type="button" id="vr-open" class="px-8 py-4 border border-white/20 text-white font-orbitron hover:bg-white/10 transition-all rounded">
                         <i class="fa-solid fa-vr-cardboard mr-2"></i> 开启虚拟漫游
-                    </a>
+                    </button>
                     <!-- 虚拟漫游弹窗 -->
                     <div id="vr-modal" class="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 transition-opacity duration-500 opacity-0 pointer-events-none">
                         <div id="vr-transition" class="absolute inset-0 flex items-center justify-center bg-black/90 transition-opacity duration-700 opacity-100">
@@ -209,7 +209,6 @@
                             playsinline>
                         </video>
                     </div>
-                    </a>
                 </div>
             </div>
 
@@ -997,7 +996,7 @@
              <button id="china-station-close" class="absolute top-4 right-4 md:top-8 md:right-8 text-white text-4xl hover:text-red-500 transition-colors z-[210] cursor-pointer bg-black/50 rounded-full w-12 h-12 flex items-center justify-center border border-white/20">
                 <i class="fa-solid fa-times"></i>
             </button>
-            <iframe id="china-station-iframe" class="w-full h-full" frameborder="0" allowfullscreen="true" allow="autoplay; fullscreen"></iframe>
+            <video id="china-station-video" class="w-full h-full" autoplay muted playsinline></video>
         </div>
     </div>
 
@@ -1005,44 +1004,38 @@
     document.addEventListener('DOMContentLoaded', function() {
         const btn = document.getElementById('china-station-btn');
         const modal = document.getElementById('china-station-modal');
-        const iframe = document.getElementById('china-station-iframe');
+        const video = document.getElementById('china-station-video');
         const closeBtn = document.getElementById('china-station-close');
         
-        // Bilibili Embed URL with timestamp (8.4s) and autoplay
-        const bilibiliUrl = "assets/videos/china-station.mp4";
+        const videoUrl = "assets/videos/china-station.mp4";
 
-        if (btn && modal && iframe && closeBtn) {
+        if (btn && modal && video && closeBtn) {
             btn.addEventListener('click', function() {
                 modal.classList.remove('pointer-events-none', 'opacity-0');
                 modal.classList.add('opacity-100');
-                // Set src to trigger load and play
-                iframe.src = bilibiliUrl;
-                // Try to trigger browser full screen for the modal
-                if (modal.requestFullscreen) {
-                    modal.requestFullscreen().catch(err => console.log("Fullscreen blocked:", err));
-                } else if (modal.webkitRequestFullscreen) { /* Safari */
-                    modal.webkitRequestFullscreen();
-                } else if (modal.msRequestFullscreen) { /* IE11 */
-                    modal.msRequestFullscreen();
+                video.src = videoUrl;
+                video.currentTime = 0;
+                video.play();
+                if (video.requestFullscreen) {
+                    video.requestFullscreen();
                 }
             });
 
             const closeModal = () => {
                 modal.classList.remove('opacity-100');
                 modal.classList.add('opacity-0', 'pointer-events-none');
-                // Exit full screen if active
-                if (document.fullscreenElement) {
-                    document.exitFullscreen().catch(err => console.log("Exit fullscreen error:", err));
+                if (document.fullscreenElement && document.exitFullscreen) {
+                    document.exitFullscreen();
                 }
                 setTimeout(() => {
-                    // Clear src to stop playback
-                    iframe.src = '';
+                    video.pause();
+                    video.removeAttribute('src');
+                    video.load();
                 }, 500);
             };
 
             closeBtn.addEventListener('click', closeModal);
             modal.addEventListener('click', function(e) {
-                // Click on background (not iframe) closes modal
                 if (e.target === modal || e.target.classList.contains('flex')) {
                      closeModal();
                 }
@@ -1056,17 +1049,17 @@
 <script>
 // 虚拟漫游弹窗逻辑
 document.addEventListener('DOMContentLoaded', function() {
-    const vrBtn = document.querySelector('a:has(.fa-vr-cardboard)');
+    const vrBtn = document.getElementById('vr-open');
     const vrModal = document.getElementById('vr-modal');
     const vrVideo = document.getElementById('vr-video');
     const vrTransition = document.getElementById('vr-transition');
     if (vrBtn && vrModal && vrVideo && vrTransition) {
         vrBtn.addEventListener('click', function(e) {
-            e.preventDefault();
             vrModal.classList.remove('pointer-events-none');
             vrModal.classList.add('opacity-100');
             vrModal.classList.remove('opacity-0');
             vrTransition.style.opacity = '1';
+            vrTransition.style.display = '';
             vrVideo.style.display = 'none';
             setTimeout(() => {
                 vrTransition.style.opacity = '0';

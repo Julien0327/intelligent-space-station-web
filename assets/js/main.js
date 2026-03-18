@@ -26,17 +26,23 @@ if (header) {
 // --- Scroll Reveal Animation ---
 const observerOptions = { threshold: 0.1 };
 
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-        }
-    });
-}, observerOptions);
+if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, observerOptions);
 
-document.querySelectorAll('.reveal').forEach(el => {
-    observer.observe(el);
-});
+    document.querySelectorAll('.reveal').forEach(el => {
+        observer.observe(el);
+    });
+} else {
+    document.querySelectorAll('.reveal').forEach(el => {
+        el.classList.add('active');
+    });
+}
 
 // --- Module Switcher ---
 function switchModule(id) {
@@ -181,17 +187,19 @@ setInterval(updateData, 2000);
 // --- Telemetry Card Rotation ---
 const card = document.querySelector('.telemetry-card');
 
-card.addEventListener('mousemove', e => {
-  const r = card.getBoundingClientRect();
-  const x = e.clientX - r.left - r.width / 2;
-  const y = e.clientY - r.top - r.height / 2;
-  card.style.transform =
-    `rotateX(${ -y / 5 }deg) rotateY(${ x / 5 }deg)`;
-});
+if (card) {
+    card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const x = e.clientX - r.left - r.width / 2;
+        const y = e.clientY - r.top - r.height / 2;
+        card.style.transform =
+            `rotateX(${ -y / 5 }deg) rotateY(${ x / 5 }deg)`;
+    });
 
-card.addEventListener('mouseleave', () => {
-  card.style.transform = 'rotateX(0) rotateY(0)';
-});
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'rotateX(0) rotateY(0)';
+    });
+}
 
 
 // --- Three.js Background ---
@@ -387,4 +395,3 @@ setInterval(() => {
 setTimeout(() => addSystemLog('System initialized.', 'success'), 500);
 setTimeout(() => addSystemLog('Connecting to satellite network...', 'info'), 1500);
 setTimeout(() => addSystemLog('Connection established.', 'success'), 2500);
-
